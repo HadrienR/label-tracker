@@ -1,8 +1,8 @@
 # label-tracker
 
-Small script to help track velocity per label on a Pivotal Tracker projects.
+Small script to help track velocity per label on a Pivotal Tracker project.
 
-## How to run
+## How to use it
 
 - Navigate to the /label-tracker folder
 - Run the following in your command line interface:
