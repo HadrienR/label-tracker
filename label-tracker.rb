@@ -24,7 +24,23 @@ end
 def init
   puts 'welcome to Label Tracker'
   api_key = ask("Please insert your API Key:  ") { |q| q.echo = "*" }
-  find_iterations(api_key)
+  find_projects (api_key)
+end
+
+def find_projects (api_key)
+  url = "https://www.pivotaltracker.com/services/v5/projects/"
+  head = {:'x-trackertoken'=> api_key}
+  response = RestClient.get(url, headers = head)
+  projects = JSON.parse(response.body)
+  rows = []
+  projects.each_with_index do |project, i|
+    rows << [i, project['name'], project['id']]
+  end
+  table = Terminal::Table.new :headings => ['#', 'Name', 'id'], :rows => rows
+  puts table
+  puts 'Please select the project you want to analyze by typing the relevant number #, (ex: "0")'
+  project_number = ask("Project # ?", Integer) { |q| q.in = 0..999 }
+  find_iterations(api_key, rows[project_number][2])
 end
 
 class Velocity
@@ -34,8 +50,8 @@ class Velocity
   $push = 0
 end
 
-def find_iterations (api_key)
-  url = 'https://www.pivotaltracker.com/services/v5/projects/1860385/iterations/?limit=10&offset=1'
+def find_iterations (api_key, project_id)
+  url = "https://www.pivotaltracker.com/services/v5/projects/#{project_id}/iterations/?limit=10&offset=1"
   head = {:'x-trackertoken'=> api_key}
   response = RestClient.get(url, headers = head)
   r = JSON.parse(response.body)
