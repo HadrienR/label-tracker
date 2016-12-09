@@ -9,5 +9,6 @@ Small script to help track velocity per label on a Pivotal Tracker projects.
 ```
 $ ruby label-tracker.rb
 ```
-- Add your Pivotal Tracker API token
+- Add your Pivotal Tracker API token (you can find it here: [https://www.pivotaltracker.com/profile])
+
 ![help](res/token.png "Logo Title Text 1")
